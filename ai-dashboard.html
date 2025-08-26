@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Server Health Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .status-card { transition: all 0.3s ease; }
+        .status-card:hover { transform: translateY(-2px); }
+        .pulse { animation: pulse 2s infinite; }
+        .health-good { background: linear-gradient(135deg, #10b981, #059669); }
+        .health-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .health-error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .metric-chart { height: 60px; }
+        .activity-log { max-height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">🧠 AI Server Health Dashboard</h1>
+            <p class="text-gray-600">Real-time monitoring of the self-healing Website Inspector server</p>
+        </div>
+
+        <!-- Status Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="status-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Server Status</p>
+                        <p id="server-status" class="text-2xl font-bold text-green-600">🟢 Online</p>
+                    </div>
+                    <div class="pulse">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <span class="text-2xl">🚀</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">AI Healings</p>
+                        <p id="healing-count" class="text-2xl font-bold text-blue-600">0</p>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span class="text-2xl">🧠</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Memory Usage</p>
+                        <p id="memory-usage" class="text-2xl font-bold text-purple-600">--MB</p>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <span class="text-2xl">💾</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Uptime</p>
+                        <p id="uptime" class="text-2xl font-bold text-orange-600">--s</p>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <span class="text-2xl">⏱️</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Health Details -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">🔍 AI Diagnostics</h2>
+                <div id="ai-diagnostics" class="space-y-3">
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <span class="text-sm font-medium text-green-800">Error Detection</span>
+                        <span class="text-green-600 font-bold">✅ Active</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                        <span class="text-sm font-medium text-blue-800">Auto-Recovery</span>
+                        <span class="text-blue-600 font-bold">✅ Active</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                        <span class="text-sm font-medium text-purple-800">Health Monitoring</span>
+                        <span class="text-purple-600 font-bold">✅ Active</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">📊 Recovery Stats</h2>
+                <div id="recovery-stats" class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Successful Strategies</span>
+                        <span id="successful-strategies" class="font-bold">0</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Circuit Breakers</span>
+                        <span id="circuit-breakers" class="font-bold">0</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Total Domains</span>
+                        <span id="total-domains" class="font-bold">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-800">📋 Real-time Activity Log</h2>
+                <button onclick="clearLog()" class="px-3 py-1 bg-gray-200 rounded-md text-sm hover:bg-gray-300">Clear</button>
+            </div>
+            <div id="activity-log" class="activity-log space-y-2 font-mono text-sm">
+                <div class="text-gray-500">Waiting for activity...</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button onclick="triggerHealthCheck()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                🔍 Force Health Check
+            </button>
+            <button onclick="triggerGC()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                🧹 Trigger Garbage Collection
+            </button>
+            <button onclick="openMainApp()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                🌐 Open Website Inspector
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let logCount = 0;
+        const maxLogEntries = 50;
+
+        async function fetchHealthData() {
+            try {
+                const response = await fetch('/ai-health');
+                const data = await response.json();
+                
+                // Update status cards
+                document.getElementById('healing-count').textContent = data.healingCount || 0;
+                document.getElementById('memory-usage').textContent = Math.round(data.memory?.heapUsed / 1024 / 1024) + 'MB';
+                document.getElementById('uptime').textContent = Math.floor(data.uptime || 0) + 's';
+                
+                // Update server status
+                const statusEl = document.getElementById('server-status');
+                statusEl.textContent = '🟢 Online';
+                statusEl.className = 'text-2xl font-bold text-green-600';
+                
+                logActivity(`✅ Health check successful - Memory: ${Math.round(data.memory?.heapUsed / 1024 / 1024)}MB, Uptime: ${Math.floor(data.uptime || 0)}s`, 'success');
+                
+            } catch (error) {
+                const statusEl = document.getElementById('server-status');
+                statusEl.textContent = '🔴 Offline';
+                statusEl.className = 'text-2xl font-bold text-red-600';
+                
+                logActivity(`❌ Health check failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function fetchRecoveryStats() {
+            try {
+                const response = await fetch('/recovery-stats');
+                const data = await response.json();
+                
+                document.getElementById('successful-strategies').textContent = data.successfulStrategies?.length || 0;
+                document.getElementById('circuit-breakers').textContent = data.circuitBreakers?.length || 0;
+                document.getElementById('total-domains').textContent = data.totalDomains || 0;
+                
+            } catch (error) {
+                logActivity(`⚠️ Failed to fetch recovery stats: ${error.message}`, 'warning');
+            }
+        }
+
+        function logActivity(message, type = 'info') {
+            const logEl = document.getElementById('activity-log');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            if (logCount === 0) {
+                logEl.innerHTML = '';
+            }
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `p-2 rounded ${getLogColor(type)}`;
+            logEntry.innerHTML = `<span class="text-gray-500">[${timestamp}]</span> ${message}`;
+            
+            logEl.insertBefore(logEntry, logEl.firstChild);
+            logCount++;
+            
+            // Limit log entries
+            if (logCount > maxLogEntries) {
+                logEl.removeChild(logEl.lastChild);
+                logCount--;
+            }
+        }
+
+        function getLogColor(type) {
+            switch (type) {
+                case 'success': return 'bg-green-50 border-l-4 border-green-400';
+                case 'error': return 'bg-red-50 border-l-4 border-red-400';
+                case 'warning': return 'bg-yellow-50 border-l-4 border-yellow-400';
+                default: return 'bg-gray-50 border-l-4 border-gray-400';
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('activity-log').innerHTML = '<div class="text-gray-500">Log cleared...</div>';
+            logCount = 0;
+        }
+
+        async function triggerHealthCheck() {
+            logActivity('🔍 Manual health check triggered...', 'info');
+            await fetchHealthData();
+        }
+
+        async function triggerGC() {
+            logActivity('🧹 Garbage collection triggered...', 'info');
+            // This would need to be implemented in the server
+        }
+
+        function openMainApp() {
+            window.open('/', '_blank');
+        }
+
+        // Initialize dashboard
+        async function init() {
+            logActivity('🚀 AI Health Dashboard initialized', 'success');
+            await fetchHealthData();
+            await fetchRecoveryStats();
+            
+            // Set up periodic updates
+            setInterval(fetchHealthData, 5000);
+            setInterval(fetchRecoveryStats, 10000);
+        }
+
+        // Start dashboard
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "name": "website-inspector-pro",
+  "version": "1.0.0",
+  "description": "AI-powered, self-healing Website Inspector with intelligent auto-recovery and real-time monitoring",
+  "main": "self-healing-server.js",
+  "scripts": {
+    "start": "node self-healing-server.js",
+    "dev": "node self-healing-server.js",
+    "test": "node test-ai-healing.js",
+    "watch": "node server-watchdog.js",
+    "robust": "./start-robust-server.sh",
+    "health": "curl -s http://localhost:3000/ai-health | python3 -m json.tool",
+    "stats": "curl -s http://localhost:3000/recovery-stats | python3 -m json.tool"
+  },
+  "keywords": [
+    "website-inspector",
+    "ai-powered",
+    "self-healing",
+    "auto-recovery",
+    "web-scraping",
+    "monitoring",
+    "nodejs",
+    "express",
+    "circuit-breaker",
+    "health-monitoring"
+  ],
+  "author": "Madhusudan Mahatha",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/website-inspector-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/website-inspector-pro/issues"
+  },
+  "homepage": "https://github.com/yourusername/website-inspector-pro#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  },
+  "bin": {
+    "website-inspector": "./start-robust-server.sh"
+  }
+}

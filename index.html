@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Inspector Pro with AI Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-tertiary: #374151;
+            --border-color: #374151;
+            --text-primary: #d1d5db;
+            --text-secondary: #9ca3af;
+            --text-header: white;
+            --accent-gradient-from: #3b82f6;
+            --accent-gradient-to: #a855f7;
+            --dynamic-bg-char-color: rgba(0, 255, 70, 0.1);
+            --dynamic-bg-char-highlight: rgba(110, 231, 183, 0.3);
+            --loader-bar-inactive: #374151;
+        }
+
+        .theme-day {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e2e8f0;
+            --border-color: #cbd5e1;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-header: #0f172a;
+            --accent-gradient-from: #3b82f6;
+            --accent-gradient-to: #1d4ed8;
+            --dynamic-bg-char-color: rgba(59, 130, 246, 0.1);
+            --dynamic-bg-char-highlight: rgba(59, 130, 246, 0.3);
+            --loader-bar-inactive: #e2e8f0;
+        }
+
+        /* Day Theme Glassmorphism Overrides */
+        .theme-day header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8)) !important;
+            border-color: rgba(203, 213, 225, 0.6) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .theme-day footer {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8)) !important;
+            border-color: rgba(203, 213, 225, 0.6) !important;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .theme-day .glass-nav-item {
+            background: rgba(59, 130, 246, 0.1) !important;
+            border: 1px solid rgba(59, 130, 246, 0.2) !important;
+        }
+
+        .theme-day .glass-nav-item:hover {
+            background: rgba(59, 130, 246, 0.2) !important;
+            border-color: rgba(59, 130, 246, 0.3) !important;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2) !important;
+        }
+
+        .theme-day .glass-button {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(29, 78, 216, 0.9)) !important;
+            border: 1px solid rgba(59, 130, 246, 0.3) !important;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3) !important;
+        }
+
+        .theme-day .glass-button:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(29, 78, 216, 1)) !important;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4) !important;
+        }
+
+        /* Day Theme Modal Overrides */
+        .theme-day .modal-overlay {
+            background: rgba(0, 0, 0, 0.6) !important;
+        }
+
+        .theme-day .modal-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9)) !important;
+            border: 1px solid rgba(203, 213, 225, 0.5) !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .theme-day .modal-close {
+            background: rgba(59, 130, 246, 0.1) !important;
+            border: 1px solid rgba(59, 130, 246, 0.2) !important;
+        }
+
+        .theme-day .modal-close:hover {
+            background: rgba(59, 130, 246, 0.2) !important;
+        }
+
+        /* Day Theme Input and Button Overrides */
+        .theme-day input[type="url"] {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+
+        .theme-day input[type="url"]:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+        }
+
+        .theme-day .bg-gray-700 {
+            background-color: #f1f5f9 !important;
+            color: #1e293b !important;
+        }
+
+        .theme-day .bg-gray-700:hover {
+            background-color: #e2e8f0 !important;
+        }
+
+        /* Day Theme Code Display */
+        .theme-day #code-display {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        .theme-day .text-gray-300 {
+            color: #64748b !important;
+        }
+
+        .theme-day .text-gray-400 {
+            color: #475569 !important;
+        }
+
+        /* Day Theme Tech Stack Badges */
+        .theme-day .glass-nav-item[class*="border-blue"] {
+            background: rgba(59, 130, 246, 0.1) !important;
+            border-color: rgba(59, 130, 246, 0.3) !important;
+            color: #1d4ed8 !important;
+        }
+
+        .theme-day .glass-nav-item[class*="border-purple"] {
+            background: rgba(147, 51, 234, 0.1) !important;
+            border-color: rgba(147, 51, 234, 0.3) !important;
+            color: #7c3aed !important;
+        }
+
+        .theme-day .glass-nav-item[class*="border-cyan"] {
+            background: rgba(6, 182, 212, 0.1) !important;
+            border-color: rgba(6, 182, 212, 0.3) !important;
+            color: #0891b2 !important;
+        }
+
+        .theme-day .glass-nav-item[class*="border-green"] {
+            background: rgba(34, 197, 94, 0.1) !important;
+            border-color: rgba(34, 197, 94, 0.3) !important;
+            color: #16a34a !important;
+        }
+
+        .theme-day .glass-nav-item[class*="border-orange"] {
+            background: rgba(249, 115, 22, 0.1) !important;
+            border-color: rgba(249, 115, 22, 0.3) !important;
+            color: #ea580c !important;
+        }
+
+        .theme-day .glass-nav-item[class*="border-yellow"] {
+            background: rgba(234, 179, 8, 0.1) !important;
+            border-color: rgba(234, 179, 8, 0.3) !important;
+            color: #ca8a04 !important;
+        }
+
+        .theme-evening {
+            --bg-primary: #2d2a4c;
+            --bg-secondary: #3e3a63;
+            --bg-tertiary: #504c7a;
+            --border-color: #605c8f;
+            --text-primary: #e5e7eb;
+            --text-secondary: #a7a3c3;
+            --text-header: white;
+            --accent-gradient-from: #f56565;
+            --accent-gradient-to: #8b5cf6;
+            --dynamic-bg-char-color: rgba(249, 115, 22, 0.07);
+            --dynamic-bg-char-highlight: rgba(253, 186, 116, 0.2);
+            --loader-bar-inactive: #504c7a;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        
+        .tab-btn { transition: all 0.2s ease-in-out; border-bottom: 2px solid transparent; }
+        .tab-btn.active { border-bottom-color: #3b82f6; color: var(--text-header); font-weight: 600; }
+        .component-btn { transition: all 0.2s ease-in-out; }
+        .component-btn.active { background-color: #3b82f6; color: white; transform: translateX(4px); }
+        .code-tab.active { background-color: #3b82f6; color: white; }
+        .header-gradient { background-image: linear-gradient(to right, var(--accent-gradient-from), var(--accent-gradient-to)); }
+
+        /* New Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-primary);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+        .loader-container {
+            width: 100%;
+            max-width: 320px;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .loader-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 4px;
+            height: 120px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .loader-bar {
+            background-color: var(--loader-bar-inactive);
+            border-radius: 2px;
+            animation: bar-animation 2s infinite ease-in-out;
+        }
+        @keyframes bar-animation {
+            0%, 100% { background-color: var(--loader-bar-inactive); transform: scaleY(0.4); }
+            20% { background-color: #facc15; transform: scaleY(1); } /* Yellow */
+            40% { background-color: #fb923c; transform: scaleY(0.7); } /* Orange */
+            60% { background-color: #f87171; transform: scaleY(0.9); } /* Red */
+            80% { background-color: var(--loader-bar-inactive); transform: scaleY(0.5); }
+        }
+
+        /* Glassmorphism Effects */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .glass-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-footer {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .glass-nav-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .glass-nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-button {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(168, 85, 247, 0.3));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .glass-button:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(168, 85, 247, 0.4));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Disclaimer Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="text-gray-300">
+    <canvas id="matrix-bg"></canvas>
+
+    <!-- Professional Header -->
+    <header class="border-b shadow-2xl sticky top-0 z-50 backdrop-blur-md" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-lg glass-button flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">🔍</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">Website Inspector Pro</h1>
+                        <p class="text-sm text-gray-300">AI-Powered Website Analysis</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <button onclick="showDisclaimer()" class="glass-nav-item px-3 py-2 text-gray-300 hover:text-white transition-all duration-300 cursor-pointer">Disclaimer</button>
+                    <button onclick="showAboutPage()" class="glass-nav-item px-3 py-2 text-gray-300 hover:text-white transition-all duration-300 cursor-pointer">About</button>
+                    <button onclick="showUserGuide()" class="glass-nav-item px-3 py-2 text-gray-300 hover:text-white transition-all duration-300 cursor-pointer">User Guide</button>
+                    <button onclick="showMainPage()" class="glass-button text-white px-4 py-2 rounded-lg font-medium">
+                        Get Started
+                    </button>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-gray-300 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- New Grafana-style Loader -->
+    <div id="loader" class="loader-overlay" style="display: none;">
+        <div class="loader-container">
+            <h2 id="loader-title" class="text-2xl font-bold" style="color: var(--text-header);">Initializing...</h2>
+            <div class="loader-grid">
+                <!-- 60 bars will be generated by JS -->
+            </div>
+            <p id="loader-subtitle" class="text-sm" style="color: var(--text-secondary);">Please wait a moment.</p>
+        </div>
+    </div>
+
+    <div id="main-content" class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <header class="text-center mb-10 relative">
+             <button id="theme-toggle-btn" class="absolute top-0 right-0 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--bg-primary)] focus:ring-blue-500" style="background-color: var(--bg-secondary); color: var(--text-secondary);">
+                <!-- Icons will be injected here by JS -->
+            </button>
+            <h1 class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent header-gradient pb-2" style="color: var(--text-header);">Website Inspector Pro</h1>
+            <p class="mt-2 text-lg" style="color: var(--text-secondary);">Inspect, deconstruct, and rebuild any website with the power of AI.</p>
+        </header>
+
+        <!-- Input Section -->
+        <div class="border p-6 rounded-xl shadow-lg mb-8" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+            <div class="flex flex-col sm:flex-row gap-4 items-center">
+                <input type="url" id="url-input" placeholder="https://example.com" class="flex-grow p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition w-full" style="background-color: var(--bg-primary); border-color: var(--border-color); color: var(--text-primary);">
+                <button id="fetch-btn" class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto">
+                    Inspect Page
+                </button>
+            </div>
+            <div class="mt-3 text-sm" style="color: var(--text-secondary);">
+                <span class="font-medium">💡 Try these working examples:</span>
+                <button type="button" onclick="document.getElementById('url-input').value='https://example.com'" class="text-blue-600 hover:underline ml-2">example.com</button>
+                <button type="button" onclick="document.getElementById('url-input').value='https://httpbin.org/html'" class="text-blue-600 hover:underline ml-2">httpbin.org</button>
+                <button type="button" onclick="document.getElementById('url-input').value='https://github.com'" class="text-blue-600 hover:underline ml-2">github.com</button>
+                <button type="button" onclick="document.getElementById('url-input').value='https://news.ycombinator.com'" class="text-blue-600 hover:underline ml-2">hackernews</button>
+            </div>
+            <div id="recovery-status" class="mt-2 text-xs px-3 py-1 rounded-full hidden" style="display: inline-block; width: fit-content;">
+                <span id="recovery-text">🤖 Auto-Recovery System: Ready</span>
+            </div>
+            <div id="message-box" class="mt-4 text-center h-5"></div>
+        </div>
+
+        <!-- Output Section -->
+        <div id="output-section" class="hidden border p-4 sm:p-6 rounded-xl shadow-lg" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+            <!-- Tabs -->
+            <div class="flex flex-wrap justify-between items-center border-b mb-4 gap-4" style="border-color: var(--border-color);">
+                <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                    <button class="tab-btn active hover:text-white" data-tab="preview" style="color: var(--text-secondary);">Live Preview</button>
+                    <button class="tab-btn hover:text-white" data-tab="html" style="color: var(--text-secondary);">HTML</button>
+                    <button class="tab-btn hover:text-white" data-tab="css" style="color: var(--text-secondary);">CSS</button>
+                    <button class="tab-btn hover:text-white" data-tab="js" style="color: var(--text-secondary);">JavaScript</button>
+                    <button class="tab-btn hover:text-white" data-tab="build" style="color: var(--text-secondary);">Build with AI</button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tab-content">
+                <div id="preview-content" class="tab-pane active">
+                    <div class="rounded-lg overflow-hidden h-[600px] border bg-white" style="border-color: var(--border-color);">
+                        <iframe id="preview-frame" class="w-full h-full border-0" sandbox="allow-scripts allow-same-origin"></iframe>
+                    </div>
+                </div>
+                <div id="html-content" class="tab-pane hidden"></div>
+                <div id="css-content" class="tab-pane hidden"></div>
+                <div id="js-content" class="tab-pane hidden"></div>
+                <div id="build-content" class="tab-pane hidden h-[600px] overflow-y-auto">
+                    <div id="build-initial-view" class="text-center p-8 flex flex-col items-center justify-center h-full">
+                         <h3 class="text-2xl font-bold mb-2" style="color: var(--text-header);">Deconstruct & Rebuild with AI</h3>
+                         <p class="mb-6 max-w-md" style="color: var(--text-secondary);">Let AI analyze the page's structure, identify the main components, and generate fresh, modern code to rebuild them from scratch.</p>
+                         <button id="build-with-ai-btn" class="inline-flex items-center gap-3 bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-purple-700 transition transform hover:scale-105">
+                             <span id="build-btn-text">✨ Analyze & Build Components</span>
+                         </button>
+                    </div>
+                    <div id="build-results-view" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-4 h-full">
+                        <!-- Component List -->
+                        <div class="lg:col-span-3 border rounded-lg p-3 overflow-y-auto" style="background-color: var(--bg-primary); border-color: var(--border-color);">
+                            <h4 class="font-bold mb-3 px-1" style="color: var(--text-header);">Identified Components</h4>
+                            <div id="component-list" class="space-y-1"></div>
+                        </div>
+                        <!-- Preview and Code -->
+                        <div class="lg:col-span-9 grid gap-4 h-full" style="grid-template-rows: 2fr 1fr;">
+                             <div class="bg-white rounded-lg border flex flex-col" style="border-color: var(--border-color);">
+                                <h4 class="font-bold p-3 border-b text-gray-800" style="border-color: #e5e7eb;">Component Preview</h4>
+                                <iframe id="component-preview-frame" class="w-full h-full border-0"></iframe>
+                            </div>
+                            <div class="rounded-lg flex flex-col" style="background-color: #111827; border-color: var(--border-color);">
+                                <div class="flex-shrink-0 p-2 border-b flex justify-between items-center" style="border-color: #374151;">
+                                    <div class="flex gap-1 bg-gray-800 p-1 rounded-md">
+                                        <button class="code-tab active text-sm font-medium px-3 py-1 rounded-md" data-type="html">HTML</button>
+                                        <button class="code-tab text-sm font-medium px-3 py-1 rounded-md text-gray-300" data-type="css">CSS</button>
+                                    </div>
+                                    <button id="copy-code-btn" class="bg-gray-700 text-white px-3 py-1 text-sm rounded-md hover:bg-gray-600">Copy</button>
+                                </div>
+                                <textarea id="component-code-output" readonly class="w-full flex-grow p-4 bg-transparent text-gray-300 font-mono text-sm resize-none focus:outline-none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- About Page -->
+    <div id="about-page" class="container mx-auto p-4 md:p-8 max-w-7xl" style="display: none;">
+        <div class="mb-8">
+            <button onclick="showMainPage()" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors mb-6">
+                ← Back to Inspector
+            </button>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">About Website Inspector Pro</h1>
+            <p class="text-xl text-gray-400">The ultimate AI-powered tool for website analysis and component generation</p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            <!-- Mission -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-white">Our Mission</h2>
+                <p class="text-gray-300 leading-relaxed">
+                    Website Inspector Pro revolutionizes web development by combining advanced AI technology with intuitive design. 
+                    We empower developers, designers, and businesses to understand, analyze, and rebuild websites with unprecedented ease and precision.
+                </p>
+                <p class="text-gray-300 leading-relaxed">
+                    Our platform leverages cutting-edge artificial intelligence to break down complex websites into manageable, 
+                    reusable components, making web development more efficient and accessible to everyone.
+                </p>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-white">What Makes Us Special</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0 mt-1">
+                            <span class="text-white text-sm">✓</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-semibold">AI-Powered Analysis</h3>
+                            <p class="text-gray-400 text-sm">Advanced machine learning algorithms analyze website structure and semantics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-1">
+                            <span class="text-white text-sm">⚡</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-semibold">Real-time Processing</h3>
+                            <p class="text-gray-400 text-sm">Instant website fetching and component generation with live previews</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0 mt-1">
+                            <span class="text-white text-sm">🎨</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-semibold">Modern Code Generation</h3>
+                            <p class="text-gray-400 text-sm">Clean, semantic HTML and CSS ready for production use</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Technology Stack -->
+        <div class="border rounded-xl p-8 mb-16" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+            <h2 class="text-2xl font-bold text-white mb-6">Technology Stack</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                        <span class="text-white text-2xl">🤖</span>
+                    </div>
+                    <h3 class="text-white font-semibold">Google Gemini AI</h3>
+                    <p class="text-gray-400 text-sm">Advanced language model</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                        <span class="text-white text-2xl">⚡</span>
+                    </div>
+                    <h3 class="text-white font-semibold">Node.js</h3>
+                    <p class="text-gray-400 text-sm">Backend runtime</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                        <span class="text-white text-2xl">🎨</span>
+                    </div>
+                    <h3 class="text-white font-semibold">Tailwind CSS</h3>
+                    <p class="text-gray-400 text-sm">Modern styling</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-red-400 to-pink-500 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                        <span class="text-white text-2xl">🚀</span>
+                    </div>
+                    <h3 class="text-white font-semibold">Express.js</h3>
+                    <p class="text-gray-400 text-sm">Web framework</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Team -->
+        <div class="text-center">
+            <h2 class="text-2xl font-bold text-white mb-6">Built with ❤️ for Developers</h2>
+            <p class="text-gray-300 max-w-2xl mx-auto">
+                Website Inspector Pro is crafted by a team passionate about making web development more efficient, 
+                accessible, and enjoyable. We believe in the power of AI to augment human creativity and productivity.
+            </p>
+        </div>
+    </div>
+    
+    <!-- User Guide Page -->
+    <div id="user-guide-page" class="container mx-auto p-4 md:p-8 max-w-7xl" style="display: none;">
+        <div class="mb-8">
+            <button onclick="showMainPage()" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors mb-6">
+                ← Back to Inspector
+            </button>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">User Guide</h1>
+            <p class="text-xl text-gray-400">Learn how to master Website Inspector Pro in minutes</p>
+        </div>
+        
+        <!-- Quick Start -->
+        <div class="border rounded-xl p-8 mb-12" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+            <h2 class="text-2xl font-bold text-white mb-6">🚀 Quick Start Guide</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">1</div>
+                    <h3 class="text-white font-semibold mb-2">Enter URL</h3>
+                    <p class="text-gray-400 text-sm">Paste any website URL in the input field</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">2</div>
+                    <h3 class="text-white font-semibold mb-2">Analyze</h3>
+                    <p class="text-gray-400 text-sm">Click "Inspect Page" to fetch and analyze</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-green-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">3</div>
+                    <h3 class="text-white font-semibold mb-2">Generate</h3>
+                    <p class="text-gray-400 text-sm">Use AI to create reusable components</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Steps -->
+        <div class="space-y-12">
+            <!-- Step 1 -->
+            <div class="border rounded-xl p-8" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                <h3 class="text-xl font-bold text-white mb-4">📝 Step 1: Website Inspection</h3>
+                <div class="space-y-4 text-gray-300">
+                    <p><strong>Enter the URL:</strong> Type or paste any website URL (e.g., example.com, google.com)</p>
+                    <p><strong>Click "Inspect Page":</strong> The system will fetch the website and extract its HTML, CSS, and JavaScript</p>
+                    <p><strong>View Results:</strong> Switch between tabs to see the extracted code with syntax highlighting</p>
+                    <div class="bg-gray-800 p-4 rounded-lg mt-4">
+                        <p class="text-sm text-gray-400">💡 <strong>Tip:</strong> You can inspect any public website - try starting with simple sites like example.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="border rounded-xl p-8" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                <h3 class="text-xl font-bold text-white mb-4">🤖 Step 2: AI Component Generation</h3>
+                <div class="space-y-4 text-gray-300">
+                    <p><strong>Prerequisites:</strong> First inspect a website to have HTML content available</p>
+                    <p><strong>Click "Analyze & Build Components":</strong> AI will analyze the website structure</p>
+                    <p><strong>Review Components:</strong> Browse the generated components in the left sidebar</p>
+                    <p><strong>Preview & Copy:</strong> Click any component to preview it and copy the code</p>
+                    <div class="bg-gray-800 p-4 rounded-lg mt-4">
+                        <p class="text-sm text-gray-400">⚡ <strong>Pro Tip:</strong> The AI identifies semantic components like headers, navigation, content sections, and footers</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="border rounded-xl p-8" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                <h3 class="text-xl font-bold text-white mb-4">🎨 Step 3: Code Management</h3>
+                <div class="space-y-4 text-gray-300">
+                    <p><strong>Syntax Highlighting:</strong> All code is displayed with beautiful syntax highlighting</p>
+                    <p><strong>Copy to Clipboard:</strong> Use the copy buttons to get HTML and CSS code</p>
+                    <p><strong>Live Preview:</strong> See how components look in the preview window</p>
+                    <p><strong>Switch Formats:</strong> Toggle between HTML and CSS views for each component</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Features Overview -->
+        <div class="mt-16">
+            <h2 class="text-2xl font-bold text-white mb-8">🔧 Key Features Explained</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">🔍 Website Inspector</h4>
+                        <p class="text-gray-400">Fetches and analyzes any website, extracting HTML, CSS, and JavaScript with full syntax highlighting.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">🤖 AI Component Builder</h4>
+                        <p class="text-gray-400">Uses Google Gemini AI to identify and generate reusable components from website structure.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">⚡ Live Preview</h4>
+                        <p class="text-gray-400">Real-time preview of websites and generated components in an embedded iframe.</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">📋 Code Export</h4>
+                        <p class="text-gray-400">One-click copying of HTML and CSS code for immediate use in your projects.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">🎯 Theme Support</h4>
+                        <p class="text-gray-400">Multiple theme options including night, day, and evening modes for comfortable viewing.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">📱 Responsive Design</h4>
+                        <p class="text-gray-400">Fully responsive interface that works perfectly on desktop, tablet, and mobile devices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Troubleshooting -->
+        <div class="mt-16 border rounded-xl p-8" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+            <h3 class="text-xl font-bold text-white mb-6">🛠️ Troubleshooting</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="text-white font-semibold">Q: Website won't load</h4>
+                    <p class="text-gray-400">Make sure the URL is correct and the website is publicly accessible. Some sites may block automated requests.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold">Q: AI analysis is slow</h4>
+                    <p class="text-gray-400">Large websites may take longer to process. The AI needs to analyze all the HTML content to identify components.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold">Q: Components look different</h4>
+                    <p class="text-gray-400">Generated components are isolated versions. Some styling may differ from the original due to missing external dependencies.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple Footer -->
+    <footer class="border-t mt-16 backdrop-blur-md" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Social Media Links -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-4">
+                    <span class="text-gray-400 text-sm">Connect with me:</span>
+                    <div class="flex gap-3">
+                        <a href="https://x.com/MsMahatha" target="_blank" rel="noopener noreferrer" class="glass-nav-item w-10 h-10 rounded-full flex items-center justify-center group">
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/msmahatha/" target="_blank" rel="noopener noreferrer" class="glass-nav-item w-10 h-10 rounded-full flex items-center justify-center group">
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/msmahatha" target="_blank" rel="noopener noreferrer" class="glass-nav-item w-10 h-10 rounded-full flex items-center justify-center group">
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="flex items-center gap-4">
+                    <span class="text-gray-400 text-sm">Built with:</span>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="glass-nav-item px-3 py-1 text-xs rounded-full text-blue-300 border border-blue-500/30">Node.js</span>
+                        <span class="glass-nav-item px-3 py-1 text-xs rounded-full text-purple-300 border border-purple-500/30">Gemini AI</span>
+                        <span class="glass-nav-item px-3 py-1 text-xs rounded-full text-cyan-300 border border-cyan-500/30">Tailwind CSS</span>
+                        <span class="glass-nav-item px-3 py-1 text-xs rounded-full text-green-300 border border-green-500/30">Express.js</span>
+                        <span class="glass-nav-item px-3 py-1 text-xs rounded-full text-orange-300 border border-orange-500/30">HTML5</span>
+                        <span class="glass-nav-item px-3 py-1 text-xs rounded-full text-yellow-300 border border-yellow-500/30">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t pt-6 mt-6 text-center" style="border-color: rgba(255, 255, 255, 0.1);">
+                <p class="text-gray-400 text-sm">
+                    © 2025 Website Inspector Pro. Built by <a href="https://github.com/msmahatha" target="_blank" class="text-blue-400 hover:text-blue-300 transition-colors">@msmahatha</a> for educational purposes.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Disclaimer Modal -->
+    <div id="disclaimer-modal" class="modal-overlay">
+        <div class="modal-content relative">
+            <button class="modal-close" onclick="closeDisclaimer()">
+                <span class="text-white">×</span>
+            </button>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 glass-button rounded-full flex items-center justify-center">
+                    <span class="text-2xl">⚠️</span>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-4">Educational Purpose Disclaimer</h2>
+                <div class="text-gray-300 space-y-4 text-left">
+                    <p>
+                        <strong class="text-white">Important Notice:</strong> This Website Inspector Pro tool is designed and intended for <strong class="text-blue-400">educational purposes only</strong>.
+                    </p>
+                    <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                        <h3 class="text-yellow-400 font-semibold mb-2">⚡ Educational Use Guidelines:</h3>
+                        <ul class="text-sm space-y-1 text-gray-300">
+                            <li>• Learn web development concepts and techniques</li>
+                            <li>• Understand website structure and design patterns</li>
+                            <li>• Practice code analysis and component identification</li>
+                            <li>• Study modern web technologies and frameworks</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+                        <h3 class="text-red-400 font-semibold mb-2">🚫 Prohibited Uses:</h3>
+                        <ul class="text-sm space-y-1 text-gray-300">
+                            <li>• Copying or reproducing copyrighted content</li>
+                            <li>• Commercial use without proper authorization</li>
+                            <li>• Unauthorized scraping of protected websites</li>
+                            <li>• Any activity that violates terms of service</li>
+                        </ul>
+                    </div>
+                    <p class="text-sm text-gray-400">
+                        By using this tool, you acknowledge that you understand and agree to use it responsibly for learning and educational purposes only.
+                    </p>
+                </div>
+                <button onclick="closeDisclaimer()" class="mt-6 glass-button text-white px-6 py-3 rounded-lg font-medium w-full">
+                    I Understand
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // --- DOM Elements ---
+        const urlInput = document.getElementById('url-input');
+        const fetchBtn = document.getElementById('fetch-btn');
+        const messageBox = document.getElementById('message-box');
+        const loader = document.getElementById('loader');
+        const loaderTitle = document.getElementById('loader-title');
+        const loaderSubtitle = document.getElementById('loader-subtitle');
+        const mainContent = document.getElementById('main-content');
+        const outputSection = document.getElementById('output-section');
+        const previewFrame = document.getElementById('preview-frame');
+        const tabs = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        const buildWithAiBtn = document.getElementById('build-with-ai-btn');
+        const buildInitialView = document.getElementById('build-initial-view');
+        const buildResultsView = document.getElementById('build-results-view');
+        const componentList = document.getElementById('component-list');
+        const componentPreviewFrame = document.getElementById('component-preview-frame');
+        const componentCodeOutput = document.getElementById('component-code-output');
+        const codeTabs = document.querySelectorAll('.code-tab');
+        const copyCodeBtn = document.getElementById('copy-code-btn');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+        // --- State Variables ---
+        let originalHtml = '';
+        let generatedComponents = [];
+        var animationInterval;
+
+        // --- DYNAMIC BACKGROUND LOGIC ---
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        function startMatrixAnimation() {
+            if (animationInterval) clearInterval(animationInterval);
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const characters = 'const let var func => {} [] </> || && != === 01';
+            const fontSize = 14;
+            const columns = Math.ceil(canvas.width / fontSize);
+            const drops = [];
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1 - Math.floor(Math.random() * 20);
+            }
+
+            function draw() {
+                const bodyStyles = getComputedStyle(document.body);
+                const bgColor = bodyStyles.getPropertyValue('--bg-primary');
+                const charColor = bodyStyles.getPropertyValue('--dynamic-bg-char-color');
+                const highlightColor = bodyStyles.getPropertyValue('--dynamic-bg-char-highlight');
+
+                ctx.fillStyle = `${bgColor}1A`; 
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    
+                    if (Math.random() > 0.98) {
+                         ctx.fillStyle = highlightColor;
+                    } else {
+                         ctx.fillStyle = charColor;
+                    }
+
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            animationInterval = setInterval(draw, 50);
+        }
+
+        // --- THEME SWITCHER LOGIC ---
+        const themes = ['night', 'day', 'evening'];
+        let currentThemeIndex = 0;
+        const themeIcons = {
+            night: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
+            day: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
+            evening: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"></path><path d="m4.93 10.93 1.41 1.41"></path><path d="M2 18h2"></path><path d="M20 18h2"></path><path d="m19.07 10.93-1.41 1.41"></path><path d="M22 22H2"></path><path d="m16 6-4 4-4-4"></path><path d="M12 10v12"></path></svg>`
+        };
+
+        function applyTheme(themeName) {
+            document.body.className = `theme-${themeName}`;
+            themeToggleBtn.innerHTML = themeIcons[themeName];
+            localStorage.setItem('inspectorTheme', themeName);
+            startMatrixAnimation(); 
+        }
+
+        // --- Event Listeners ---
+        themeToggleBtn.addEventListener('click', () => {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            applyTheme(themes[currentThemeIndex]);
+        });
+        window.addEventListener('resize', startMatrixAnimation);
+        fetchBtn.addEventListener('click', fetchWebsite);
+        urlInput.addEventListener('keyup', (event) => { if (event.key === 'Enter') fetchWebsite(); });
+        buildWithAiBtn.addEventListener('click', handleBuildWithAI);
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabPanes.forEach(p => p.classList.add('hidden'));
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}-content`).classList.remove('hidden');
+            });
+        });
+
+        codeTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const type = tab.dataset.type;
+                const activeComponentBtn = document.querySelector('.component-btn.active');
+                if (activeComponentBtn) {
+                    const componentIndex = parseInt(activeComponentBtn.dataset.index);
+                    displayComponent(componentIndex, type);
+                }
+            });
+        });
+
+        copyCodeBtn.addEventListener('click', () => {
+            componentCodeOutput.select();
+            document.execCommand('copy');
+            showMessage('Copied to clipboard!', 'success');
+        });
+
+        // --- Core Functions ---
+        
+        async function fetchWebsite() {
+            console.log('fetchWebsite called');
+            
+            // Disable button during processing
+            fetchBtn.disabled = true;
+            fetchBtn.textContent = 'Analyzing...';
+            fetchBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            // Initialize recovery status
+            updateRecoveryStatus('ready', '🤖 Auto-Recovery System: Ready', 'info');
+            
+            let targetUrl = urlInput.value.trim();
+            console.log('Target URL:', targetUrl);
+            
+            if (!targetUrl) {
+                // Re-enable button on error
+                fetchBtn.disabled = false;
+                fetchBtn.textContent = 'Inspect Page';
+                fetchBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                return showMessage('Please enter a valid URL.', 'error');
+            }
+            
+            // Clean URL - remove extra protocols and backslashes
+            targetUrl = targetUrl.replace(/\\+/g, ''); // Remove backslashes
+            targetUrl = targetUrl.replace(/^(https?:\/\/)+/i, ''); // Remove multiple protocols
+            targetUrl = targetUrl.replace(/^\/+/, ''); // Remove leading slashes
+            
+            // Add protocol if missing
+            if (!/^https?:\/\//i.test(targetUrl)) {
+                targetUrl = 'https://' + targetUrl;
+            }
+            
+            // Validate URL format
+            try {
+                new URL(targetUrl);
+            } catch (e) {
+                // Re-enable button on error
+                fetchBtn.disabled = false;
+                fetchBtn.textContent = 'Inspect Page';
+                fetchBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                return showMessage('Please enter a valid URL format.', 'error');
+            }
+            
+            console.log('Final URL:', targetUrl);
+
+            // Show Grafana-style loader
+            loader.style.display = 'flex';
+            loaderTitle.textContent = 'Website Inspector is loading...';
+            loaderSubtitle.textContent = 'Fetching and analyzing website content...';
+            outputSection.classList.add('hidden');
+            buildInitialView.classList.remove('hidden');
+            buildResultsView.classList.add('hidden');
+            generatedComponents = [];
+            
+            try {
+                // Update loading message for server request
+                loaderTitle.textContent = 'Connecting to target website...';
+                loaderSubtitle.textContent = 'Our smart system will automatically adapt if blocked.';
+                updateRecoveryStatus('fetching', '🌐 Fetching website...', 'info');
+                
+                console.log('Making fetch request to server...');
+                const serverResponse = await fetch('http://localhost:3000/fetch-url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: targetUrl }),
+                });
+
+                console.log('Server response status:', serverResponse.status);
+                
+                if (!serverResponse.ok) {
+                    const errorData = await serverResponse.json();
+                    console.error('Server error:', errorData);
+                    throw new Error(errorData.error || 'Failed to fetch from server');
+                }
+                
+                // Update loading message for processing
+                loaderTitle.textContent = 'Processing website data...';
+                loaderSubtitle.textContent = 'Extracting HTML, CSS, and JavaScript...';
+                
+                const data = await serverResponse.json();
+                console.log('Received data from server, HTML length:', data.html.length);
+                const html = data.html;
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const base = doc.createElement('base');
+                base.href = targetUrl;
+                doc.head.prepend(base);
+                originalHtml = doc.documentElement.outerHTML;
+
+                // Update loading message for final steps
+                loaderTitle.textContent = 'Generating code view...';
+                loaderSubtitle.textContent = 'Creating syntax-highlighted display...';
+
+                const { css, js } = await extractAssets(doc, targetUrl);
+
+                document.getElementById('html-content').innerHTML = '';
+                document.getElementById('css-content').innerHTML = '';
+                document.getElementById('js-content').innerHTML = '';
+                document.getElementById('html-content').appendChild(createCodeView('HTML', originalHtml));
+                document.getElementById('css-content').appendChild(createCodeView('CSS', css));
+                document.getElementById('js-content').appendChild(createCodeView('JavaScript', js));
+
+                // Final loading message
+                loaderTitle.textContent = 'Analysis complete!';
+                loaderSubtitle.textContent = 'Website successfully inspected and ready to view.';
+                
+                // Short delay to show completion message
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                // Check if the site might have iframe restrictions
+                const restrictedDomains = ['youtube.com', 'google.com', 'facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com', 'linkedin.com', 'discord.com', 'hotstar.com', 'netflix.com'];
+                const currentUrl = new URL(targetUrl);
+                const isRestricted = restrictedDomains.some(domain => currentUrl.hostname.includes(domain));
+                
+                if (isRestricted) {
+                    previewFrame.srcdoc = `
+                        <html>
+                        <head>
+                            <style>
+                                body { 
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                                    margin: 0; 
+                                    padding: 40px 20px; 
+                                    display: flex; 
+                                    flex-direction: column; 
+                                    align-items: center; 
+                                    justify-content: center; 
+                                    height: 100vh; 
+                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                    color: white; 
+                                    text-align: center; 
+                                    box-sizing: border-box;
+                                }
+                                .container { 
+                                    max-width: 500px; 
+                                    background: rgba(255,255,255,0.1); 
+                                    padding: 30px; 
+                                    border-radius: 15px; 
+                                    backdrop-filter: blur(10px); 
+                                    border: 1px solid rgba(255,255,255,0.2);
+                                }
+                                .icon { font-size: 64px; margin-bottom: 20px; }
+                                h2 { margin: 0 0 15px 0; font-size: 24px; font-weight: 600; }
+                                p { margin: 10px 0; opacity: 0.9; line-height: 1.6; }
+                                .tip { 
+                                    margin-top: 20px; 
+                                    padding: 15px; 
+                                    background: rgba(255,255,255,0.1); 
+                                    border-radius: 8px; 
+                                    border-left: 4px solid #4CAF50; 
+                                    font-size: 14px;
+                                }
+                                .suggested-sites {
+                                    margin-top: 15px;
+                                    font-size: 14px;
+                                    opacity: 0.8;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <div class="icon">🚫</div>
+                                <h2>Preview Blocked</h2>
+                                <p>This website prevents embedding for security reasons (X-Frame-Options/CORS).</p>
+                                <p><strong>Good news:</strong> The code analysis below is complete and accurate!</p>
+                                <div class="tip">
+                                    <strong>💡 Try these sites instead:</strong>
+                                    <div class="suggested-sites">
+                                        example.com • github.com • stackoverflow.com<br>
+                                        news.ycombinator.com • httpbin.org
+                                    </div>
+                                </div>
+                            </div>
+                        </body>
+                        </html>`;
+                } else {
+                    // Clean HTML to reduce CORS issues
+                    const cleanedHtml = cleanHtmlForPreview(originalHtml, targetUrl);
+                    previewFrame.srcdoc = cleanedHtml;
+                }
+                
+                outputSection.classList.remove('hidden');
+                
+                // Show success message with recovery info if available
+                let successMessage = 'Successfully fetched website!';
+                if (data.recovered) {
+                    successMessage = `✨ Auto-recovery successful! Used "${data.recoveryStats?.successfulStrategy || 'adaptive'}" strategy.`;
+                    updateRecoveryStatus('success', `✅ Recovered using ${data.recoveryStats?.successfulStrategy || 'adaptive'} strategy`, 'success');
+                    
+                    // Show additional recovery info in console for debugging
+                    if (data.recoveryStats) {
+                        console.log('🤖 Auto-Recovery Stats:', data.recoveryStats);
+                    }
+                } else {
+                    updateRecoveryStatus('success', '✅ Website fetched successfully', 'success');
+                }
+                
+                showMessage(successMessage, 'success');
+            } catch (error) {
+                handleError(error, 'Failed to fetch website');
+            } finally {
+                // Re-enable button and hide loader
+                fetchBtn.disabled = false;
+                fetchBtn.textContent = 'Inspect Page';
+                fetchBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                loader.style.display = 'none';
+            }
+        }
+        
+        async function handleBuildWithAI() {
+            if (!originalHtml) return showMessage('No HTML to analyze. Inspect a page first.', 'error');
+            
+            // Disable button and show loading state
+            buildWithAiBtn.disabled = true;
+            const buildBtnText = document.getElementById('build-btn-text');
+            buildBtnText.textContent = '🤖 AI Analyzing...';
+            buildWithAiBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            // Show Grafana-style loader with AI-specific messages
+            loader.style.display = 'flex';
+            loaderTitle.textContent = 'AI Component Builder is loading...';
+            loaderSubtitle.textContent = 'Initializing artificial intelligence analysis...';
+
+            const prompt = `Analyze the following HTML and identify the main semantic components (e.g., header, hero, features section, footer). For each component, generate clean, modern HTML and the necessary CSS to style it as a standalone component. Respond with a JSON array where each object has "componentName", "html", and "css" keys.
+
+HTML to analyze:
+${originalHtml}`;
+
+            try {
+                // Update loading message for AI processing
+                loaderTitle.textContent = 'AI is analyzing website structure...';
+                loaderSubtitle.textContent = 'Identifying components and semantic elements...';
+                
+                const responseText = await callGemini(prompt, true);
+                
+                // Update loading message for parsing
+                loaderTitle.textContent = 'Processing AI response...';
+                loaderSubtitle.textContent = 'Generating component library from analysis...';
+                
+                const cleanedJsonString = responseText.replace(/^```json\s*|```\s*$/g, '').trim();
+                generatedComponents = JSON.parse(cleanedJsonString);
+
+                if (!Array.isArray(generatedComponents) || generatedComponents.length === 0) {
+                    throw new Error("AI did not return valid components.");
+                }
+
+                // Final loading message
+                loaderTitle.textContent = 'Component analysis complete!';
+                loaderSubtitle.textContent = 'AI has successfully generated reusable components.';
+                
+                // Short delay to show completion message
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                populateComponentList();
+                buildInitialView.classList.add('hidden');
+                buildResultsView.classList.remove('hidden');
+                displayComponent(0, 'html');
+            } catch(error) {
+                handleError(error, 'AI build process failed');
+                buildInitialView.classList.remove('hidden');
+            } finally {
+                // Re-enable button and hide loader
+                buildWithAiBtn.disabled = false;
+                buildBtnText.textContent = '✨ Analyze & Build Components';
+                buildWithAiBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                loader.style.display = 'none';
+            }
+        }
+
+        function populateComponentList() {
+            componentList.innerHTML = '';
+            generatedComponents.forEach((comp, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'component-btn w-full text-left p-2 rounded-md';
+                btn.textContent = comp.componentName;
+                btn.dataset.index = index;
+                btn.onclick = () => displayComponent(index, 'html');
+                btn.style.color = 'var(--text-primary)';
+                btn.style.setProperty('--hover-bg', 'var(--bg-tertiary)');
+                btn.onmouseover = () => btn.style.backgroundColor = 'var(--bg-tertiary)';
+                btn.onmouseout = () => { if(!btn.classList.contains('active')) btn.style.backgroundColor = 'transparent'; };
+                componentList.appendChild(btn);
+            });
+        }
+
+        function displayComponent(index, codeType) {
+            if (index >= generatedComponents.length) return;
+            const component = generatedComponents[index];
+            
+            document.querySelectorAll('.component-btn').forEach(b => {
+                b.classList.remove('active');
+                b.style.backgroundColor = 'transparent';
+            });
+            const activeBtn = document.querySelector(`.component-btn[data-index='${index}']`);
+            activeBtn.classList.add('active');
+            activeBtn.style.backgroundColor = '#3b82f6';
+
+            componentPreviewFrame.srcdoc = `<html><head><style>${component.css}</style></head><body style="margin:0;">${component.html}</body></html>`;
+
+            document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.code-tab[data-type='${codeType}']`).classList.add('active');
+            componentCodeOutput.value = component[codeType];
+        }
+
+        async function callGemini(prompt, expectJson = false) {
+            console.log('callGemini called with prompt length:', prompt.length);
+            
+            try {
+                // Use secure API proxy instead of direct API call
+                console.log('Making secure Gemini API request...');
+                const response = await fetch('/api/gemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        expectJson: expectJson
+                    })
+                });
+
+                console.log('Gemini API response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Gemini API error data:', errorData);
+                    
+                    if (response.status === 503) {
+                        throw new Error('AI service not configured. Please check server configuration.');
+                    }
+                    
+                    let errorDetails = errorData.error || 'Unknown error occurred';
+                    if (errorData.details) {
+                        errorDetails += ': ' + errorData.details;
+                    }
+                    throw new Error(errorDetails);
+                }
+
+                const result = await response.json();
+                console.log('Gemini API response received');
+                
+                if (!result.success || !result.response) {
+                    throw new Error("Invalid response from AI service.");
+                }
+                
+                return result.response;
+                
+            } catch (error) {
+                console.error('Gemini API call failed:', error);
+                throw error;
+            }
+        }
+
+        // --- UI & Utility Functions ---
+        
+        function cleanHtmlForPreview(html, baseUrl) {
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Remove problematic scripts that might cause CORS issues
+                const scripts = doc.querySelectorAll('script');
+                scripts.forEach(script => {
+                    if (script.src && !script.src.startsWith(new URL(baseUrl).origin)) {
+                        script.remove();
+                    } else if (script.textContent && (
+                        script.textContent.includes('history.') ||
+                        script.textContent.includes('window.location') ||
+                        script.textContent.includes('document.domain')
+                    )) {
+                        script.remove();
+                    }
+                });
+                
+                // Convert external resources to use our proxy (optional)
+                const links = doc.querySelectorAll('link[href]');
+                links.forEach(link => {
+                    if (link.href && !link.href.startsWith(new URL(baseUrl).origin) && 
+                        (link.rel === 'stylesheet' || link.type === 'text/css')) {
+                        // Optionally proxy CSS files
+                        // link.href = `/proxy?url=${encodeURIComponent(link.href)}`;
+                    }
+                });
+                
+                // Add error suppression script
+                const errorScript = doc.createElement('script');
+                errorScript.textContent = `
+                    window.addEventListener('error', function(e) { 
+                        console.log('Suppressed error:', e.error?.message || e.message); 
+                        e.preventDefault(); 
+                        return false; 
+                    });
+                    window.addEventListener('unhandledrejection', function(e) {
+                        console.log('Suppressed rejection:', e.reason);
+                        e.preventDefault();
+                    });
+                    // Disable problematic APIs
+                    if (typeof history !== 'undefined') {
+                        history.pushState = function() {};
+                        history.replaceState = function() {};
+                    }
+                `;
+                doc.head.appendChild(errorScript);
+                
+                return doc.documentElement.outerHTML;
+            } catch (error) {
+                console.warn('HTML cleaning failed, using original:', error);
+                return html;
+            }
+        }
+        
+        function createCodeView(lang, content) {
+            const container = document.createElement('div');
+            container.className = 'border rounded-xl shadow-lg h-[600px] flex flex-col';
+            container.style.backgroundColor = '#111827';
+            container.style.borderColor = 'var(--border-color)';
+            
+            const header = document.createElement('div');
+            header.className = 'flex-shrink-0 p-3 border-b rounded-t-xl flex justify-between items-center';
+            header.style.backgroundColor = 'var(--bg-secondary)';
+            header.style.borderColor = 'var(--border-color)';
+            header.innerHTML = `<span class="text-sm" style="color: var(--text-primary);">${lang.toUpperCase()} Source</span>`;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'text-white px-3 py-1 text-sm rounded-md hover:bg-gray-600';
+            copyBtn.textContent = 'Copy';
+            copyBtn.style.backgroundColor = 'var(--bg-tertiary)';
+
+            const textarea = document.createElement('textarea');
+            textarea.readOnly = true;
+            textarea.className = 'w-full flex-grow p-4 bg-transparent font-mono text-sm resize-none focus:outline-none';
+            textarea.style.color = 'var(--text-primary)';
+            textarea.value = content;
+
+            copyBtn.onclick = () => {
+                textarea.select();
+                document.execCommand('copy');
+                showMessage('Copied to clipboard!', 'success');
+            };
+            header.appendChild(copyBtn);
+            container.appendChild(header);
+            container.appendChild(textarea);
+            return container;
+        }
+
+        async function extractAssets(doc, baseUrl) {
+            let css = '', js = '';
+            doc.querySelectorAll('style').forEach(style => css += `/* Inline <style> */\n${style.innerHTML}\n\n`);
+            doc.querySelectorAll('script:not([src])').forEach(script => js += `// Inline <script>\n${script.innerHTML}\n\n`);
+            return { css, js };
+        }
+        
+        function showMessage(message, type = 'info') {
+            messageBox.innerHTML = '';
+            const p = document.createElement('p');
+            p.textContent = message;
+            const colors = {
+                success: 'text-green-400',
+                error: 'text-red-400',
+                info: 'text-gray-400'
+            };
+            p.className = colors[type] || colors.info;
+            messageBox.appendChild(p);
+            setTimeout(() => { if (messageBox.contains(p)) messageBox.removeChild(p); }, 4000);
+        }
+        
+        function updateRecoveryStatus(status, message, type = 'info') {
+            const recoveryStatus = document.getElementById('recovery-status');
+            const recoveryText = document.getElementById('recovery-text');
+            
+            recoveryText.textContent = message;
+            recoveryStatus.classList.remove('hidden');
+            
+            // Remove previous type classes
+            recoveryStatus.classList.remove('bg-blue-100', 'text-blue-800', 'bg-green-100', 'text-green-800', 'bg-yellow-100', 'text-yellow-800', 'bg-red-100', 'text-red-800');
+            
+            // Add appropriate classes based on type
+            switch(type) {
+                case 'success':
+                    recoveryStatus.classList.add('bg-green-100', 'text-green-800');
+                    break;
+                case 'warning':
+                    recoveryStatus.classList.add('bg-yellow-100', 'text-yellow-800');
+                    break;
+                case 'error':
+                    recoveryStatus.classList.add('bg-red-100', 'text-red-800');
+                    break;
+                default:
+                    recoveryStatus.classList.add('bg-blue-100', 'text-blue-800');
+            }
+            
+            // Auto-hide after 10 seconds unless it's an error or success
+            if (type !== 'error' && type !== 'success') {
+                setTimeout(() => {
+                    recoveryStatus.classList.add('hidden');
+                }, 10000);
+            }
+        }
+
+        function handleError(error, message) {
+            console.error(`${message}:`, error);
+            
+            let errorMessage = message;
+            let suggestion = '';
+            
+            // Check if it's a response from our server with detailed error info
+            if (error.response && error.response.data) {
+                const errorData = error.response.data;
+                if (errorData.error) {
+                    errorMessage = errorData.error;
+                }
+                if (errorData.suggestion) {
+                    suggestion = ` ${errorData.suggestion}`;
+                }
+                
+                // Update recovery status based on error
+                if (errorData.autoRecoveryAttempted) {
+                    updateRecoveryStatus('failed', '❌ All recovery strategies failed', 'error');
+                    if (errorData.recoveryStats) {
+                        console.log('🤖 Recovery attempts:', errorData.recoveryStats);
+                    }
+                } else {
+                    updateRecoveryStatus('error', '⚠️ Error occurred before recovery', 'warning');
+                }
+            } else if (error.message) {
+                errorMessage = `${message}. ${error.message}`;
+                updateRecoveryStatus('error', '⚠️ Network or system error', 'error');
+            }
+            
+            showMessage(`${errorMessage}${suggestion}`, 'error');
+        }
+        
+        // --- Page Navigation Functions ---
+        function showMainPage() {
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('about-page').style.display = 'none';
+            document.getElementById('user-guide-page').style.display = 'none';
+        }
+        
+        function showAboutPage() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('about-page').style.display = 'block';
+            document.getElementById('user-guide-page').style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+        
+        function showUserGuide() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('about-page').style.display = 'none';
+            document.getElementById('user-guide-page').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // --- Disclaimer Modal Functions ---
+        function showDisclaimer() {
+            const modal = document.getElementById('disclaimer-modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeDisclaimer() {
+            const modal = document.getElementById('disclaimer-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('disclaimer-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDisclaimer();
+            }
+        });
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDisclaimer();
+            }
+        });
+
+        // --- Initial Setup ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const loaderGrid = document.querySelector('.loader-grid');
+            for(let i = 0; i < 60; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'loader-bar';
+                bar.style.animationDelay = `${Math.random() * 2}s`;
+                loaderGrid.appendChild(bar);
+            }
+
+            const savedTheme = localStorage.getItem('inspectorTheme') || 'night';
+            currentThemeIndex = themes.indexOf(savedTheme);
+            applyTheme(savedTheme);
+
+            document.body.style.opacity = '1';
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 300);
+
+            // Show main page by default
+            showMainPage();
+
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.add('py-3', 'px-1', 'font-medium', 'text-sm', 'whitespace-nowrap'));
+            urlInput.value = ""; // Removed default URL
+        });
+
+    </script>
+</body>
+</html>
