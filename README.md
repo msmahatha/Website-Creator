@@ -20,16 +20,69 @@
 ## 📸 Screenshots
 
 ### 🖥️ Main Interface
-![Main Interface](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&crop=center&auto=format&q=80)
-*Clean, intuitive interface for website analysis and inspection*
+![Main Interface](https://github.com/msmahatha/Website-Creator/raw/main/assets/images/main-interface.png)
 
-### 📊 AI Health Dashboard
-![AI Dashboard](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&crop=center&auto=format&q=80)
-*Real-time monitoring with AI-powered insights and auto-recovery statistics*
+**Professional Dark Theme Interface featuring:**
+- 🎯 **Clean URL Input Field** - Enter any website URL for instant analysis
+- 🔍 **Blue "Inspect Page" Button** - One-click website inspection
+- � **Auto-Recovery Status** - Real-time system health indicator  
+- 🌐 **Example URLs** - Quick-start suggestions (example.com, httpbin.org, github.com, hackernews)
+- 🎨 **Modern UI** - Professional navigation with Disclaimer, About, User Guide, and Get Started sections
 
-### 🔧 Self-Healing in Action
-![Self Healing Demo](https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop&crop=center&auto=format&q=80)
-*Watch the AI automatically detect and resolve server issues in real-time*
+### � Educational Disclaimer Modal
+![Educational Disclaimer](https://github.com/msmahatha/Website-Creator/raw/main/assets/images/educational-disclaimer.png)
+
+**Responsible Use Guidelines:**
+- ⚠️ **Important Notice** - Clear educational purpose disclaimer
+- ✅ **Educational Guidelines** - Learn web development, understand website structure, practice code analysis
+- 🚫 **Prohibited Uses** - No copyright infringement, unauthorized scraping, or commercial misuse
+- 🛡️ **Ethical Usage** - Promotes responsible learning and educational purposes only
+
+### 📚 About Page
+![About Page](https://github.com/msmahatha/Website-Creator/raw/main/assets/images/about-page.png)
+
+**Comprehensive Information Hub:**
+- 🚀 **Mission Statement** - Revolutionizing web development with AI technology
+- ⭐ **Special Features** - AI-powered analysis, real-time processing, modern code generation
+- 🛠️ **Technology Stack** - Google Gemini AI, Node.js, Tailwind CSS, Express.js with visual icons
+- 🎯 **Professional Layout** - Clean, informative design explaining the platform's capabilities
+
+### � User Guide
+![User Guide](https://github.com/msmahatha/Website-Creator/raw/main/assets/images/user-guide.png)
+
+**Step-by-Step Tutorial:**
+- 🚀 **Quick Start Guide** - Visual 3-step process (Enter URL → Analyze → Generate)
+- � **Detailed Instructions** - Complete walkthrough of website inspection process
+- � **Pro Tips** - Best practices and helpful suggestions for optimal results
+- 🎨 **Interactive Design** - User-friendly layout with numbered steps and clear explanations
+
+### � Live Website Analysis
+![Website Analysis](https://github.com/msmahatha/Website-Creator/raw/main/assets/images/website-analysis.png)
+
+**Real-Time Analysis in Action:**
+- ✅ **Success Indicator** - "Website fetched successfully" confirmation
+- 📱 **Live Preview Tab** - Real-time website preview when CORS allows
+- 🔖 **Code Tabs** - HTML, CSS, JavaScript, and "Build with AI" options
+- 🌐 **GitHub Example** - Shows analysis of GitHub.com with complete functionality
+- 📊 **Professional Results** - Clean, organized display of fetched content
+
+### 💻 HTML Code Extraction
+![HTML Code View](https://github.com/msmahatha/Website-Creator/raw/main/assets/images/html-code-view.png)
+
+**Advanced Code Analysis:**
+- 📄 **Syntax Highlighting** - Professional code display with proper formatting
+- 📋 **Copy Functionality** - One-click code copying for development use
+- 🔍 **Detailed HTML** - Complete source code extraction and analysis
+- 🎨 **Clean Interface** - Easy-to-read code presentation with GitHub theme
+
+### 🤖 AI-Powered Features
+![AI Features](https://github.com/msmahatha/Website-Creator/raw/main/assets/images/ai-features.png)
+
+**Intelligent Analysis Capabilities:**
+- 🧠 **AI Analysis** - "Deconstruct & Rebuild with AI" functionality
+- ⚡ **Smart Processing** - AI analyzes page structure and identifies components
+- 🔧 **Component Generation** - Create fresh, modern code to rebuild from scratch
+- � **Advanced AI** - "Analyze & Build Components" button for intelligent reconstruction
 
 ## ✨ Features
 
@@ -102,13 +155,43 @@
    - AI Dashboard: http://localhost:3000/ai-health
    - Health API: http://localhost:3000/health
 
-### 🐳 Docker Quick Start
+## 🎬 How to Add Real Screenshots
+
+To replace the placeholder images with actual screenshots of your application:
+
+### 1. 📷 Capture Screenshots
+
 ```bash
-# One-line Docker setup
-docker-compose up --build
+# Start the application
+node self-healing-server.js
+
+# Open these URLs in your browser:
+# http://localhost:3000 (main interface)
+# http://localhost:3000/ai-health (dashboard)
 ```
 
-![Docker Setup](https://images.unsplash.com/photo-1605745341112-85968b19335b?w=600&h=300&fit=crop&crop=center&auto=format&q=80)
+### 2. 📁 Save Screenshots
+Save your screenshots in the `assets/images/` folder:
+- `main-interface.png` - Main application interface
+- `ai-dashboard.png` - AI health monitoring dashboard  
+- `self-healing-demo.gif` - Terminal recording of auto-recovery
+
+### 3. 🔄 Update README
+Replace the Unsplash URLs with local file paths:
+```markdown
+![Main Interface](./assets/images/main-interface.png)
+![AI Dashboard](./assets/images/ai-dashboard.png)
+![Self Healing Demo](./assets/images/self-healing-demo.gif)
+```
+
+### 4. 📤 Commit and Push
+```bash
+git add assets/images/
+git commit -m "Add actual application screenshots"
+git push origin main
+```
+
+> 📋 **Tip**: Follow the detailed guide in `assets/SCREENSHOT_GUIDE.md` for best practices
 
 ## 📖 Usage
 
