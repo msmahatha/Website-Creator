@@ -1,6 +1,80 @@
 # Website Inspector Pro 🚀
 
-<div align="center">
+<di## 📸 Screenshots
+
+> **📝 Note**: To add the actual screenshots to this README, please save the images from your application to the `assets/images/` folder and update the paths below.
+
+### 🖥️ Main Interface
+<!-- Replace this URL with: ![Main Interface](./assets/images/main-interface.png) after saving the screenshot -->
+![Main Interface](https://via.placeholder.com/800x500/2d3748/ffffff?text=Website+Inspector+Pro+Main+Interface)
+
+**Professional Dark Theme Interface featuring:**
+- 🎯 **Clean URL Input Field** - Enter any website URL for instant analysis
+- 🔍 **Blue "Inspect Page" Button** - One-click website inspection
+- 📊 **Auto-Recovery Status** - Real-time system health indicator  
+- 🌐 **Example URLs** - Quick-start suggestions (example.com, httpbin.org, github.com, hackernews)
+- 🎨 **Modern UI** - Professional navigation with Disclaimer, About, User Guide, and Get Started sections
+
+### 📖 Educational Disclaimer Modal
+<!-- Replace this URL with: ![Educational Disclaimer](./assets/images/educational-disclaimer.png) after saving the screenshot -->
+![Educational Disclaimer](https://via.placeholder.com/800x500/2d3748/ffffff?text=Educational+Disclaimer+Modal)
+
+**Responsible Use Guidelines:**
+- ⚠️ **Important Notice** - Clear educational purpose disclaimer
+- ✅ **Educational Guidelines** - Learn web development, understand website structure, practice code analysis
+- 🚫 **Prohibited Uses** - No copyright infringement, unauthorized scraping, or commercial misuse
+- 🛡️ **Ethical Usage** - Promotes responsible learning and educational purposes only
+
+### 📚 About Page
+<!-- Replace this URL with: ![About Page](./assets/images/about-page.png) after saving the screenshot -->
+![About Page](https://via.placeholder.com/800x500/2d3748/ffffff?text=About+Page)
+
+**Comprehensive Information Hub:**
+- 🚀 **Mission Statement** - Revolutionizing web development with AI technology
+- ⭐ **Special Features** - AI-powered analysis, real-time processing, modern code generation
+- 🛠️ **Technology Stack** - Google Gemini AI, Node.js, Tailwind CSS, Express.js with visual icons
+- 🎯 **Professional Layout** - Clean, informative design explaining the platform's capabilities
+
+### 📖 User Guide
+<!-- Replace this URL with: ![User Guide](./assets/images/user-guide.png) after saving the screenshot -->
+![User Guide](https://via.placeholder.com/800x500/2d3748/ffffff?text=User+Guide)
+
+**Step-by-Step Tutorial:**
+- 🚀 **Quick Start Guide** - Visual 3-step process (Enter URL → Analyze → Generate)
+- 📝 **Detailed Instructions** - Complete walkthrough of website inspection process
+- 💡 **Pro Tips** - Best practices and helpful suggestions for optimal results
+- 🎨 **Interactive Design** - User-friendly layout with numbered steps and clear explanations
+
+### 🔍 Live Website Analysis
+<!-- Replace this URL with: ![Website Analysis](./assets/images/website-analysis.png) after saving the screenshot -->
+![Website Analysis](https://via.placeholder.com/800x600/2d3748/ffffff?text=Live+Website+Analysis)
+
+**Real-Time Analysis in Action:**
+- ✅ **Success Indicator** - "Website fetched successfully" confirmation
+- 📱 **Live Preview Tab** - Real-time website preview when CORS allows
+- 🔖 **Code Tabs** - HTML, CSS, JavaScript, and "Build with AI" options
+- 🌐 **GitHub Example** - Shows analysis of GitHub.com with complete functionality
+- 📊 **Professional Results** - Clean, organized display of fetched content
+
+### 💻 HTML Code Extraction
+<!-- Replace this URL with: ![HTML Code View](./assets/images/html-code-view.png) after saving the screenshot -->
+![HTML Code View](https://via.placeholder.com/800x600/2d3748/ffffff?text=HTML+Code+Extraction)
+
+**Advanced Code Analysis:**
+- 📄 **Syntax Highlighting** - Professional code display with proper formatting
+- 📋 **Copy Functionality** - One-click code copying for development use
+- 🔍 **Detailed HTML** - Complete source code extraction and analysis
+- 🎨 **Clean Interface** - Easy-to-read code presentation with GitHub theme
+
+### 🤖 AI-Powered Features
+<!-- Replace this URL with: ![AI Features](./assets/images/ai-features.png) after saving the screenshot -->
+![AI Features](https://via.placeholder.com/800x500/2d3748/ffffff?text=AI+Powered+Features)
+
+**Intelligent Analysis Capabilities:**
+- 🧠 **AI Analysis** - "Deconstruct & Rebuild with AI" functionality
+- ⚡ **Smart Processing** - AI analyzes page structure and identifies components
+- 🔧 **Component Generation** - Create fresh, modern code to rebuild from scratch
+- 💜 **Advanced AI** - "Analyze & Build Components" button for intelligent reconstruction"center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-v16+-green.svg)](https://nodejs.org/)
