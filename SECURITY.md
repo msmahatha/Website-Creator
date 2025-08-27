@@ -19,7 +19,7 @@ Please **do not** create public GitHub issues for security vulnerabilities. This
 
 ### 2. Contact Us Privately
 
-Send a detailed report to: **security@website-inspector-pro.com**
+Send a detailed report to: **madhusudanmahatha14@gmail.com**
 
 Include:
 - Description of the vulnerability
